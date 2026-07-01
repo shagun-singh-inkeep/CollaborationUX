@@ -50,5 +50,6 @@ A precise map of shipped-vs-gap lives in each spec's *Current state* section.
 - [[proposals/0001-collaboration-ux|Proposal 0001 — Collaboration UX (north star)]] — vision, principles, competitive framing, roadmap.
 - [[specs/agent-change-visibility/spec|Spec — Agent change visibility & legibility]] · [[specs/agent-change-visibility/tasks|tasks]]
 - [[specs/human-to-human-collaboration/spec|Spec — Human-to-human collaboration]] · [[specs/human-to-human-collaboration/tasks|tasks]]
+- [[guides/live-blocks|Research — Human-to-human collaboration UX & data model]] — Liveblocks/Figma/Google-Docs/Notion survey; presence + comment-thread patterns; proposed ephemeral-vs-persisted data model (feeds Phase 2).
 
 _Workflow: proposals (RFC) graduate to specs (github/spec-kit triple), which graduate to `decisions/` once accepted._
