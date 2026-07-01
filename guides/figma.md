@@ -26,7 +26,7 @@ Figma is surveyed for its **presence** UX — the gold standard for "who is here
 - **Avatar stack** in the top bar = the canonical "who's in the room" surface, with a grey/inactive vs active distinction. This is the [[README|PresenceBar]] pattern.
 - Ephemeral spatial presence (cursor x/y, current selection, viewport) is **never persisted** — pure awareness.
 
-**For OK:** the awareness substrate for this already exists in the [[guides/yjs-baseline|Yjs baseline]]; the cross-product presence patterns and where they land are collected in the [[guides/collaboration-synthesis|synthesis]]. Compare with [[guides/liveblocks-note|Liveblocks]]' finding that a read-only client can still broadcast presence.
+**For OK:** the awareness substrate for this already exists in the [[guides/yjs-baseline|Yjs baseline]]; the cross-product presence patterns and where they land are collected in the [[guides/collaboration-synthesis|synthesis]]. Compare with [[guides/live-blocks|Liveblocks]]' finding that a read-only client can still broadcast presence.
 
 ## Links
 
