@@ -47,9 +47,13 @@ A precise map of shipped-vs-gap lives in each spec's *Current state* section.
 
 ## Index
 
+- [[guides/collaboration-status|Status — what's built & what's next]] — one-page, plain-language read of what already ships vs what's left, with how we'll build each remaining piece.
 - [[proposals/0001-collaboration-ux|Proposal 0001 — Collaboration UX (north star)]] — vision, principles, competitive framing, roadmap.
+- [[proposals/0002-contribute-from-ok|Proposal 0002 — Contribute from OK (fork-and-propose / in-product PR)]] — let a `pull`-only user send edits back to the source repo from inside OK; the missing "way back" GitHub-gated access needs.
+- [[outcomes/human-collaboration-foundations/OUTCOMES|Outcomes — Human collaboration foundations]] — the Phase 2 foundations (comments, collaborator identity, view-only access) forced into sharp, testable outcomes with Now/Next/Later sequencing; sits between Proposal 0001 and the Phase 2 spec.
 - [[specs/agent-change-visibility/spec|Spec — Agent change visibility & legibility]] · [[specs/agent-change-visibility/tasks|tasks]]
 - [[specs/human-to-human-collaboration/spec|Spec — Human-to-human collaboration]] · [[specs/human-to-human-collaboration/tasks|tasks]]
 - [[guides/collaboration-synthesis|Research — Human-to-human collaboration UX & data model]] — synthesis of the collaboration survey: presence + comment-thread patterns, a proposed ephemeral-vs-persisted data model (feeds Phase 2). Per-product studies: [[guides/live-blocks|Liveblocks]] · [[guides/figma|Figma]] · [[guides/google-docs|Google Docs]] · [[guides/notion|Notion]] · [[guides/yjs-baseline|Yjs/Hocuspocus baseline]].
+- [[guides/view-only-access|Research — View-only access across tools]] — how Liveblocks, Google Docs, Notion, and Figma model read-only access, and what OK should adopt for Phase 2 G4.
 
 _Workflow: proposals (RFC) graduate to specs (github/spec-kit triple), which graduate to `decisions/` once accepted._

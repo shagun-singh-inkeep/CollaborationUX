@@ -72,7 +72,7 @@ The machinery for live human collaboration is largely built — the CRDT merges 
 - **Comments anchored to content, conflict-free.** Comments attach to document ranges that survive concurrent edits — the anchoring-stability problem is the crux (see open questions). Threads support reply / resolve / @-mention.
 - **Suggestions are optional, opt-in.** A lightweight "suggest instead of edit" mode produces an accept/reject affordance — the one place a gated model is appropriate, in contrast to Phase 1's auto-apply.
 - **One timeline (already true).** The shipped Timeline tab is the shared feed; a human edit and an agent edit already read side by side. Phase 2 makes *live* human edits flow into it and adds a cross-workspace rollup — it doesn't introduce a new feed.
-- **View-only is a real product state**, not just a repo permission — the editor renders read-only and write paths are refused for that participant. Enforcement point (federated store vs git-delegated) is an open question.
+- **View-only is a real product state**, not just a repo permission — the editor renders read-only and write paths are refused for that participant. Enforcement point (federated store vs git-delegated) is an open question. Cross-tool survey + recommendation: [[guides/view-only-access|view-only access research]].
 
 ### States to design explicitly
 

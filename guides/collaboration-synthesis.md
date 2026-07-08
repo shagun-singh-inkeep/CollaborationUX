@@ -53,9 +53,9 @@ Beyond the five studies above:
 
 | Pattern | Weight | Use in OK |
 | --- | --- | --- |
-| Avatar stack ("who's in the room") | light | **Yes** — extend the existing PresenceBar to humans |
-| Live cursor + name label | medium | **Yes** — humans only (y-prosemirror decorations) |
-| Selection highlight | medium | Yes — humans; agent equivalent is write-flash |
+| Avatar stack ("who's in the room") | light | **Shipping** — the PresenceBar already surfaces human peers (per-doc awareness) alongside agents |
+| Live cursor + name label | medium | **Shipping** — humans only; `yCursorPlugin` renders remote carets + name labels in both WYSIWYG and source mode |
+| Selection highlight | medium | **Shipping** — humans (same `yCursorPlugin` decorations); agent equivalent is write-flash |
 | Typing / "editing now" indicator | light | Optional; ephemeral via awareness or CC1 |
 | Active vs idle (greyed avatar) | light | Yes — cheap, high-value |
 | Follow / spectate a participant | heavy | Later (G1 optional) — Figma follow-mode |
@@ -96,15 +96,41 @@ The core question (Nick's, and open questions #3/#5): **what is document content
 
 ### The comment-anchor decision (resolves open question #3)
 
-The spec frames it as in-CRDT (heavier, conflict-free) **vs** side store (lighter, anchoring harder). The survey says the answer every mature tool reached is **hybrid — split the thread from its anchor:**
+**The question.** When someone comments on a span of text, where does the tie between the comment and that text live? A comment really has two parts:
 
-- **Anchor → in the CRDT** as a `Y.RelativePosition` (or a ProseMirror mark via `y-prosemirror`). It rides concurrent edits conflict-free, survives agent full-file rewrites, and degrades to "orphaned/context-lost" ([[guides/google-docs|Google Docs]] behavior) rather than pointing at the wrong text.
-- **Thread payload (body, author, resolved, replies, mentions) → a side store**, keyed by thread id. Lighter, queryable, notifiable, and doesn't bloat the document Y.Doc. This is exactly [[guides/live-blocks|Liveblocks]]' managed-thread-store model.
-- **Anchor granularity:** a character range is most precise; a **block-level anchor (**[[guides/notion|Notion]]**-style)** is more stable under heavy editing. Given OK's ProseMirror block model, a block-or-range anchor is a reasonable v1 — decide with a stability test (spec's test plan already calls for "comment stays attached under concurrent edits").
+- the **anchor** — *which* text the comment points at, and
+- the **payload** — the thread itself: body, author, replies, `resolved` state, mentions.
 
-This keeps the document CRDT clean while getting conflict-stable anchoring — the best of both the spec's options.
+The spec framed this as a single either/or:
 
-### Ephemeral vs persisted — the rule
+- **All in the CRDT** — conflict-free and always consistent, but heavier, and it bloats the document.
+- **All in a side store** — lighter and easy to query, but keeping the anchor pointed at the right text as the document changes is hard.
+
+**The decision: don't choose — split the comment in two.** Every mature tool we surveyed reached the same hybrid — put the **anchor in the CRDT** and the **payload in a side store**, so each half lives where it's naturally strongest.
+
+**Anchor → in the CRDT**, as a `Y.RelativePosition` (or a ProseMirror mark via `y-prosemirror`). Because it rides inside the CRDT, it:
+
+- moves with the text under concurrent edits, conflict-free;
+- survives an agent rewriting the whole file;
+- degrades gracefully — if its text is deleted it becomes "orphaned / context-lost" ([[guides/google-docs|Google Docs]] behavior) instead of silently pointing at the wrong words.
+
+**Payload → in a side store**, keyed by thread id. Kept out of the document, the thread body is:
+
+- lighter — the document Y.Doc doesn't grow with every comment;
+- easy to query and to drive notifications from.
+
+This is exactly [[guides/live-blocks|Liveblocks]]' managed-thread-store model.
+
+**One sub-decision still open — how precise the anchor is:**
+
+- a **character range** is the most precise (it highlights the exact words) but fragile under heavy editing;
+- a **block-level anchor** ([[guides/notion|Notion]]-style) is coarser but far more stable.
+
+Given OK's ProseMirror block model, supporting *either a block or a range* is a reasonable v1. Pick the default with a stability test — the spec's test plan already calls for "comment stays attached under concurrent edits."
+
+**Bottom line:** anchor in-CRDT + payload side-store keeps the document CRDT clean while still getting conflict-stable anchoring — the best of both options the spec posed.
+
+### Ephemeral vs persisted —==&#x20;the rule&#x20;==
 
 - **Ephemeral (never persist, allow to be wrong):** cursor, selection, viewport, focus, typing, active/idle, ad-hoc reactions/pings. Losing these on disconnect is *correct*.
 - **Persisted (durable, merged or queryable):** document content, comment threads + anchors, notifications, doc metadata (owner/last-edited/activity), identity, roles.
@@ -118,7 +144,7 @@ This keeps the document CRDT clean while getting conflict-stable anchoring — t
 
 ## Part 3 — Recommended patterns for Open Knowledge
 
-1. **Extend the PresenceBar to humans** with avatar stack + active/idle; add live cursors + selection via `y-prosemirror` once the shared server is reachable. Reuse, don't rebuild (see [[guides/yjs-baseline|Yjs baseline]]).
+1. **Human presence is already shipping** — the PresenceBar surfaces human peers and `y-prosemirror`'s `yCursorPlugin` renders live cursors + selection in both editor modes. This one's essentially done; remaining polish is active/idle states. Reuse, don't rebuild (see [[guides/yjs-baseline|Yjs baseline]]).
 2. **Build comments as the flagship Phase 2 surface** — gutter threads, reply/resolve/`@`-mention, **anchor in-CRDT + payload side-store**. This is the biggest gap and the highest user value.
 3. **Add a per-user notification inbox** for mentions/replies — the second gap; small but expected.
 4. **Keep one identity model** across humans + agents (writer-ID taxonomy) so the Timeline and comments read coherently — satisfies open question #5.

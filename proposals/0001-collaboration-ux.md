@@ -2,9 +2,6 @@
 type: proposal
 title: Collaboration UX
 description: "North-star framing for Open Knowledge's collaboration experience: agent change legibility first, human-to-human collaboration next."
-status: draft
-authors:
-  - shagun@inkeep.com
 created: 2026-06-30
 tags:
   - proposal
@@ -15,7 +12,7 @@ tags:
 
 **Status:** draft · **Author:** shagun@inkeep.com · **Created:** 2026-06-30
 
-Parent hub: [[README|Collaboration UX]]. Graduates to: [[specs/agent-change-visibility/spec|Phase 1 spec]], [[specs/human-to-human-collaboration/spec|Phase 2 spec]].
+Parent hub: [[README|Collaboration UX]]. Graduates to: [[specs/agent-change-visibility/spec|Phase 1 spec]], [[specs/human-to-human-collaboration/spec|Phase 2 spec]]. Phase 2 foundations sharpened as outcomes: [[outcomes/human-collaboration-foundations/OUTCOMES|human-collaboration foundations]] (operationalizes open questions #3–#6).
 
 ## Motivation
 
@@ -89,6 +86,9 @@ These need Shagun↔Miles alignment; they gate the specs.
 1. **Notification cadence & model.** Where do agent changes get announced (in-doc flash, panel badge, toast, OS notification) and how do we keep multi-agent / high-frequency edits from becoming noise?
 2. **Review semantics.** Is there ever a gated/"propose" mode, or is it always review-after-the-fact with undo? Does "accept/keep" need to be an explicit state or is no-action == accepted?
 3. **Comment storage (Phase 2).** Do comments live in the CRDT (anchored to positions, conflict-free, but heavier) or in a side store? This is a backend decision with large UX consequences — anchoring stability across edits is the crux.
+   - **Leaning : split the thread from its anchor.** Put the **anchor in the CRDT** — a `Y.RelativePosition` / doc-resident ProseMirror mark, plus a **text fingerprint** for re-anchoring — so it rides concurrent edits for free. Keep **bodies in a side store, joined by thread id.** This is the convergence across the survey: [[guides/google-docs|Google Docs]] (ID-anchored side store, threads *orphan* gracefully when their text is deleted), [[guides/notion|Notion]] (block-level anchor), and [[guides/live-blocks|Liveblocks]] Comments — the last on the **exact Tiptap + Yjs substrate OK runs** (a doc-resident comment mark + a side store joined by id). Nobody puts comment bodies in the CRDT text stream.
+   - **For OK:** bodies-in-CRDT is viable as a *simpler* Phase-2 start, but the industry default is the side store — so design the anchor to move bodies out later **without reworking anchoring** (the two choices are independent). The **text-fingerprint fallback is non-negotiable regardless**, because agent / out-of-band `.md` rewrites will dangle anchors — you want graceful re-anchor-or-orphan ([[guides/google-docs|Google Docs]]-style), not silent loss.
+   - **The real difficulty is the re-anchoring policy after out-of-band `.md` rewrites, not the storage location** — that's where the Phase-2 design budget should go. Full analysis: [[guides/collaboration-synthesis|the comment-anchor decision]]; case study: [[guides/live-blocks|Liveblocks]].
 4. ==**Permissions model (Phase 2).** View-only / edit — enforced where? Today access == GitHub repo access. Does the federated store introduce a real permission layer, or do we stay git-delegated?==
 5. **Unified identity across humans + agents.** One attribution/timeline model spanning the writer-ID taxonomy (`agent-*`, `principal-*`, `file-system`, `git-upstream`) so the activity feed reads coherently.
 6. **Offline / async reconciliation UX.** How do git-sync conflicts (Layer 2) surface and get resolved in the UI, distinct from conflict-free live edits (Layer 1)?
