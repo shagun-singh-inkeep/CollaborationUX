@@ -222,9 +222,9 @@ https://liveblocks.io/docs/collaboration-features/comments
 
 ## Pre-mortem
 
-Most likely failure: **the federated backend slips and "cloud collaboration" stalls at O1** — expectation set as multiplayer, delivered as better agent legibility. Mitigation: topology tags make the gate explicit; O1 is real standalone value; O2–O5 sharpening waits for promotion triggers instead of speccing against a moving backend.
-Second: **the directory-contract assumption (XQ2, Medium) is wrong** — the member-management workstream delivers something mentions/roles can't consume (wrong scoping, no avatars, no query surface), forcing O3/O6 rework. Mitigation: named verification plan — confirm owner + contract before /spec.
-Third: **agent act-on-comment erodes trust** if it ships before change↔thread traceability is airtight — one bad unattributable agent edit off a comment poisons the differentiator. Mitigation: reply-before-act ordering is recorded as Directed, and traceability is an O4-owned requirement.
+The biggest risk: **the federated backend slips and "cloud collaboration" never gets past O1** — we promise multiplayer but ship only sharper agent legibility. How we guard against it: topology tags make the dependency gate explicit, O1 stands on its own as shipped value, and we hold off sharpening O2–O5 until their promotion triggers fire rather than speccing against a backend that's still moving.
+Next: **the directory-contract assumption (XQ2, Medium) turns out to be wrong** — member-management ships something mentions and roles can't actually consume (mis-scoped, no avatars, no query surface), and O3/O6 have to be reworked. How we guard against it: a named verification plan that confirms the owner and the contract before we open a /spec.
+Also: **agent act-on-comment erodes trust** if it lands before change↔thread traceability is watertight — a single unattributable agent edit off a comment is enough to poison the differentiator. How we guard against it: reply-before-act ordering is recorded as Directed, and traceability is a requirement O4 owns.
 
 ## Evidence & References
 
