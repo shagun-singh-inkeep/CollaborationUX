@@ -8,6 +8,8 @@ notion
 
 <img src="/outcomes/timeline/pasted-20260708-201832.png" />
 
+like how you can see a full screen view and can click into the exact part
+
 google docs
 
 
@@ -18,13 +20,11 @@ ink and switch
 
 <img src="/outcomes/timeline/pasted-20260709-144500.png" />
 
+comments might conflict with the side bar diff
 
 
 
-
-
-
-claude design
+**claude design**
 
 
 
