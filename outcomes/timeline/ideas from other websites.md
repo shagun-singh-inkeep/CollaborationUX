@@ -30,6 +30,5 @@ n
 
 <img src="/outcomes/timeline/pasted-20260709-144557.png" />
 
-<img src="/outcomes/timeline/pasted-20260709-150700.png" />
+<img src="/outcomes/timeline/pasted-20260709-152233.png" />
 
-but then let the user click into
