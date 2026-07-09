@@ -2,6 +2,8 @@
 
 <img src="/outcomes/timeline/pasted-20260708-201616.png" />
 
+different colors for different people/agents
+
 **notion**
 
 <img src="/outcomes/timeline/pasted-20260708-201832.png" />
