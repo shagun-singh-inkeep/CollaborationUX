@@ -1,22 +1,18 @@
-mintlify
+**mintlify**
 
 <img src="/outcomes/timeline/pasted-20260708-201616.png" />
 
-
-
-notion
+**notion**
 
 <img src="/outcomes/timeline/pasted-20260708-201832.png" />
 
 like how you can see a full screen view and can click into the exact part
 
-google docs
-
-
+**google docs**
 
 <img src="/outcomes/timeline/pasted-20260708-202151.png" />
 
-ink and switch
+**ink and switch**
 
 <img src="/outcomes/timeline/pasted-20260709-144500.png" />
 
