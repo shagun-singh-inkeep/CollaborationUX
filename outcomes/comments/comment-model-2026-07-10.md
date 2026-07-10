@@ -1,6 +1,6 @@
 # Comment model — 2026-07-10 design exploration
 
-**Provenance:** user design exploration (Shagun, 2026-07-10) — **design intent, not verified feasibility.** Verify the anchoring/storage and MCP-write feasibility in /spec. Raw source: the screenshots + notes in [Untitled](Untitled) (this folder).
+**Provenance:** user design exploration (Shagun, 2026-07-10) — **design intent, not verified feasibility.** Verify the anchoring/storage and MCP-write feasibility in /spec. Raw source: the screenshots + notes in [Untitled](ideas) (this folder).
 
 Supports [OUTCOMES](OUTCOMES). Captured here so the outcomes reference a synthesized model rather than re-reading raw screenshots.
 

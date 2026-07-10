@@ -8,7 +8,7 @@
 
 **SCR:**
 
-- **Situation:** OK already gives agents the strongest change-legibility substrate on the market (live flash, dual-channel presence, per-agent activity, durable commit-grained attribution) but has **zero human comment primitives**. In the parent collaboration artifact, comments were shaped as two outcomes: O8 (`local` — anchored comments your agents read/reply/act on, buildable today over local MCP) and O4 (`hosted` — human-to-human threads on that same substrate). A 2026-07-10 design exploration ([comment-model-2026-07-10](comment-model-2026-07-10), synthesized from the [captures in this folder](Untitled)) sharpened a concrete, differentiated model — a unified Comment/Ask-AI composer and agent replies that arrive as accept/discard suggestions — detailed enough to spec on its own.
+- **Situation:** OK already gives agents the strongest change-legibility substrate on the market (live flash, dual-channel presence, per-agent activity, durable commit-grained attribution) but has **zero human comment primitives**. In the parent collaboration artifact, comments were shaped as two outcomes: O8 (`local` — anchored comments your agents read/reply/act on, buildable today over local MCP) and O4 (`hosted` — human-to-human threads on that same substrate). A 2026-07-10 design exploration ([comment-model-2026-07-10](comment-model-2026-07-10), synthesized from the [captures in this folder](ideas)) sharpened a concrete, differentiated model — a unified Comment/Ask-AI composer and agent replies that arrive as accept/discard suggestions — detailed enough to spec on its own.
 - **Complication:** the model now spans (a) a **local hero flow** buildable today — act on a selection to comment *or* direct an agent in place, and the agent answers with a proposed diff you **Accept** (lands as one edit in history + resolves) or **Discard** — and (b) a **hosted multiplayer half** (human delivery, mentions, comment-only roles) gated on the unshipped federated store. It also reopens the agent-edit-trust question the parent deliberately parked (PQ3: *observability, not gating*): the accept/discard suggestion is a **third** position between "agent writes directly" (O8) and "pending-review gating." Shipped un-sharpened, /spec would re-derive the anchoring/storage boundary (the hardest engineering) and guess the suggestion model.
 - **Resolution:** a dedicated, topology-tagged set of commenting outcomes — the local hero flow now (C1–C3), the hosted multiplayer half on federation (C4–C5) — inheriting the parent's locked decisions and the storage-fidelity invariant, with the suggestion-model scope tracked as an explicit open question (CQ1), **not** decided here.
 
@@ -141,7 +141,7 @@ No cloud, no other workstreams — agents connect over local MCP. This is the he
 
 ### Evidence Files
 - [comment-model-2026-07-10](comment-model-2026-07-10) — design-intent model (unified composer + accept/discard suggestion loop) + competitive captures
-- [Untitled](Untitled) — raw capture: screenshots (Notion, Mintlify, Coda, Claude, GitHub PR) + notes
+- [Untitled](ideas) — raw capture: screenshots (Notion, Mintlify, Coda, Claude, GitHub PR) + notes
 - [../human-collaboration-foundations/evidence/current-state-collab-ux.md](../human-collaboration-foundations/evidence/current-state-collab-ux.md) — codebase reality (inherited)
 - [../human-collaboration-foundations/evidence/internal-specs-and-reports.md](../human-collaboration-foundations/evidence/internal-specs-and-reports.md) — locked decisions + house philosophy (inherited)
 - [../human-collaboration-foundations/evidence/prior-art-collaboration.md](../human-collaboration-foundations/evidence/prior-art-collaboration.md) — table stakes / differentiators / deliberately-avoid (inherited)
@@ -149,3 +149,4 @@ No cloud, no other workstreams — agents connect over local MCP. This is the he
 ### Upstream Artifacts
 - [Parent: Make OK collaboration legible and multiplayer](../human-collaboration-foundations/OUTCOMES.md) — the umbrella; O8/O4 carve into this artifact
 - federated-collaboration-sync SPEC (Draft, Andrew) — hosted multi-tenant sync + `TENANT → PRINCIPAL` identity (lives in the monorepo: `public/open-knowledge/specs/2026-05-20-federated-collaboration-sync/`)
+
