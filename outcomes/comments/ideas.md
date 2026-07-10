@@ -50,3 +50,4 @@ are we support the ability for an agent to send a suggestion that you can approv
 
 <img src="/outcomes/comments/pasted-20260710-171339.png" />
 
+send one at time to the terminal or do we start 3 seperate terminals???

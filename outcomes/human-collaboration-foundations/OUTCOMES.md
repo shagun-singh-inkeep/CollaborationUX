@@ -116,12 +116,6 @@ Buildable on today's local-first architecture — no cloud, no other workstreams
 
 - A user returning after hours away can reconstruct "what did agents do while I was gone" from durable UI alone — no reliance on toasts or having watched live. This is fully `[local]`: the git shadow repo persists every agent write + attribution to disk, read back via the local server's `/api/history` — no hosted dependency. Note the two-diff split: per-row = authored delta (PQ7); cumulative "since I left" = `stored-point vs live` (the restore-preview diff, which has a legitimate home HERE even though it's wrong for per-actor rows). Requires one small UX affordance — a "last seen" marker (or a checkpoint) to bound "while I was gone" without manual effort; the data + diff already exist locally.
 
-**Done:&#x20;**
-
-**Git commit attribution in timeline**
-
-<img src="/outcomes/human-collaboration-foundations/pasted-20260708-161259.png" />
-
 **Assumptions:**
 
 - Jump-to-edit splits into two claims (code-verified 2026-07-08, recalibrated after the two-diffs distinction surfaced). Claim 1 — given current-doc positions, scroll + highlight is EASY: primitives exist (`EditorView.scrollIntoView`, `SourceEditor.tsx:86`; agent-flash `Decoration.line`). Confidence: **High**. Claim 2 — deriving the RIGHT positions is the actual work. Confidence: **Medium**. The timeline diff today is `diff(commit_snapshot, live)` (`use-timeline-entry-diff.ts:74`) = a *restore preview*, NOT what an actor changed: for "agent adds hi, then user changes to hey", expanding the agent's row shows `-hi +hey` (the agent's own content on the minus side, the user's later edit as the addition). Faithful actor attribution needs the *authored delta* (`commit vs parent`, native in git), whose positions are at commit-time and must be re-anchored to the live doc for jump-to-current — the real spike. Two bounded sub-unknowns: (a) WYSIWYG/TipTap needs a source-line → rendered-node mapping (the XmlFragment↔Y.Text bridge has the data); (b) deleted regions have no current line — detectable, and that detection IS the "content no longer present" affordance. Note: Notion proves the end-to-end UX at scale via stable block-UUID anchors (`#block-uuid` deep links from its Updates feed — see the addendum in [prior-art-collaboration](evidence/prior-art-collaboration.md)); OK's engineering delta is deriving equivalent durable anchors without a block model — CRDT relative positions are the natural analog.
