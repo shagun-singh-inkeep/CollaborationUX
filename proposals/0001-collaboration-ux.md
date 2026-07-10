@@ -12,7 +12,7 @@ tags:
 
 **Status:** draft · **Author:** shagun@inkeep.com · **Created:** 2026-06-30
 
-Parent hub: [[README|Collaboration UX]]. Graduates to: [[specs/agent-change-visibility/spec|Phase 1 spec]], [[specs/human-to-human-collaboration/spec|Phase 2 spec]]. Phase 2 foundations sharpened as outcomes: [[outcomes/human-collaboration-foundations/OUTCOMES|human-collaboration foundations]] (operationalizes open questions #3–#6).
+Parent hub: [[README|Collaboration UX]]. Graduates to: [[specs/agent-change-visibility/spec|Phase 1 spec]], [[specs/human-to-human-collaboration/spec|Phase 2 spec]]. Phase 2 foundations sharpened as outcomes: [[outcomes/human-collaboration-foundations/OUTCOMES|human-collaboration foundations]] (operationalizes open questions #3–#6). Validated against real internal use: [[use-cases/internal-dogfooding|SPEC 1:1s & All Hands run on OK]].
 
 ## Motivation
 
