@@ -25,6 +25,7 @@
 |---|---|---|---|---|---|
 | CQ1 | Agent-edit model: comment-directed edits land directly, no accept/discard gate | Product | P0 | Decided | **Decided (user-directed 2026-07-10): direct-act — observability, not gating.** An agent answering a comment makes the edit directly; it lands as one traceable, one-step-undoable edit and resolves the thread — no pre-apply Accept/Discard. Aligns C3 with parent O8 (agent writes directly) and PQ3 "observability not gating"; the trust surface is the traceable edit + undo/jump-to-change, not a gate. Owned by C3. Supersedes the accept/discard mockups in (comment-model-2026-07-10). |
 | CQ2 | Unified composer: "same box, one switch" (Comment / Ask-AI, Team/AI toggle) | Product | P0 | Assumed | **Claim:** the two selection affordances collapse into one box; a Team/AI toggle picks recipient; pointed at AI, anchored text + note become the instruction (no separate prompt field). Confidence: **Medium** — clean design intent, feasibility unverified. **Verify by:** prototype the selection-composer against the editor selection API + the Ask-AI/MCP path in /spec. Owned by C2. (comment-model-2026-07-10) |
+| CQ3 | Queue scope: local outbound-only vs incoming/collaborator comments | Product | P1 | Open | **Fork.** (a) local-only — the queue holds the user's own comments and batch-dispatches them to an agent (C6, buildable today); (b) also a triage queue for comments directed *at* the user by collaborators/agents, bulk-forwardable to an agent — that rides the hosted inbox (CX4) + C4, not local. Ship (a) now; (b) promotes with federation. Owned by C6. |
 | CX1 | Storage fidelity: threads never in markdown or content-path sidecars; anchors survive CRDT rebinds + offline git merges, or orphan explicitly | Cross-cutting | P0 | Decided | **Inherited invariant (parent XQ3).** Storage *design* delegated to /spec of C1. Touches C1, C3, C4. |
 | CX2 | Access tiers + GitHub boundary — "view / comment / edit, and how does that work with git?" | Cross-cutting | P0 | Parked | **Inherited (parent O6 + XQ4).** Commenting's slice: the commenter tier (C5) + threads carry no git representation (CX1), so comment-only never conflicts with git. Roles enforced at the hosted sync gateway, never in files. Trigger: hosted store + directory exist. (comment-model-2026-07-10) |
 | CX3 | Identity + member directory dependency | Cross-cutting | P0 | Assumed | **Inherited (parent PQ1/XQ2/O2/TQ1).** Human authorship (C4), thread mentions, and roles (C5) all consume attested identity + an access-scoped member directory from the federated + member-management workstreams. Confidence: Medium. **Verify by:** confirm directory contract + owner before C4 → /spec. |
@@ -98,6 +99,26 @@ No cloud, no other workstreams — agents connect over local MCP. This is the he
 - A multi-paragraph edit is presented coherently in the thread + history (loading + multi-block presentation is /spec's to design — flagged here, not designed).
 **Assumptions:** CQ1 decided (direct-act); a comment-directed edit over the current agent-write / MCP path lands as one edit traceable back to its thread. Confidence: **Medium** — verify the thread↔edit wiring against the server-side agent-markdown-write + MCP write surface in /spec.
 **Connections:** depends on C1 (thread) and C2 (the AI send path); owns CQ1; closes the loop with parent O1 (comment → agent edits directly → traceable change you can jump to and undo); under federation, the same direct-edit loop is visible to human collaborators (rides C4).
+
+### C6 — A user can queue comments and dispatch a batch to an agent `P1 · Next · [local]`
+**Why:** Once directing an agent from a comment is one gesture (C2) and its edit lands directly (C3), the next friction is volume — reviewing a doc you leave ten comments and don't want to open ten threads and Ask AI ten times. A **queue** collects the comments you've made, lets you pick which to act on, and **sends the batch to an agent in one action** — the same C3 direct-edit loop, fanned out. It also gives one place to see "what have I asked / still want to ask" before dispatching (customer). It reuses C2's compose path and C3's per-item direct-edit loop — a batching layer, not a new engine (platform). No shipping prior art batch-dispatches anchored comments to an agent (prior-art differentiator).
+**Surfaces:** a queue/side-panel listing queued comment threads (per-item select, remove, resolved state) — in scope; the batch action ("send all to AI", or send the selected subset) — in scope; MCP (the agent receives the batch as a set of comment-scoped instructions and acts per-item via C3) — in scope; per-item results surface back in each thread (C3) + history — in scope; notifications — N/A locally.
+**Invariants:**
+- The queue changes *when* comments are dispatched, never *how* — each dispatched item still runs the C3 direct-edit loop (one traceable, undoable edit per comment; observability, not gating).
+- A batch is not all-or-nothing — each item lands as its own attributed edit tied to its own thread; a failure on one never rolls back the others, and every outcome is visible per-thread.
+- Queuing a comment never mutates the doc; only dispatch triggers agent edits. The queue holds no state in markdown or content-path sidecars (CX1).
+- Queue membership is explicit — a comment enters only by the user's action, never auto-swept.
+**Non-goals:**
+- [NOT NOW] Cross-doc batches, scheduled/deferred dispatch, or agent-priority ordering within a batch.
+- [NOT NOW] A shared/team queue or dispatching *other people's* comments — that rides the hosted inbox (CX4) + C4 (CQ3); the local queue is your own comments only.
+- [NEVER] Re-introducing a pre-apply Accept/Discard gate on the resulting edits — here "accept" means picking which comments to send, not reviewing agent output; CQ1 stands (edits land directly).
+**Acceptance criteria:**
+- The user can add comments to a queue, see them listed, select a subset, and dispatch the selection (or all) to an agent in one action.
+- Each dispatched comment produces its own C3 direct edit — one attributed, undoable edit per thread, traceable to its comment.
+- A per-item failure leaves the other items' edits intact and surfaces the failure in that item's thread.
+- The queue survives a reload and holds no state in the markdown (CX1).
+**Assumptions:** the MCP path can accept a batch of comment-scoped instructions and the agent can act on them per-item (C3). Confidence: **Medium** — a batching layer over the C2 compose + C3 write paths; verify batch dispatch + partial-failure semantics in /spec. Scope fork tracked as CQ3.
+**Connections:** depends on C2 (compose/queue entry) and C3 (per-item direct edit); owns CQ3; local-only today — under federation the queue could extend to comments directed *at* you by collaborators (rides C4 + inbox CX4), noted not built here.
 
 ## Outcomes — hosted track (requires the federated central store)
 
