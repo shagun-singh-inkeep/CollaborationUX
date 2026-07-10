@@ -77,7 +77,7 @@ No cloud, no other workstreams — agents connect over local MCP. This is the he
 - The AI path requires no separate prompt field.
 - The affordance collapses gracefully to a bubble icon when toolbar space is tight; ⌘⇧M opens, ⌘↵ sends.
 **Assumptions:** CQ2 (composer feasibility, Medium).
-**Connections:** depends on C1 (needs a thread to post into); feeds C3 (the AI send path); the Team path feeds C4 under federation.
+**Connections:** depends on C1 (needs a thread to post into); feeds C3 (the AI send path) and C6 (queued batch dispatch); the Team path feeds C4 under federation.
 
 ### C3 — An agent answers a comment by making the edit directly `P0 · Now · [local]`
 **Why:** The on-brand payoff: you direct an agent on an exact passage and it **makes the change directly** — the edit lands as one edit in history (undo stepper / jump-to-change) and it replies *inside the thread* recording what it did, then resolves. This is the trust surface **and** the differentiator in one feature — every edit is traceable to the comment that caused it and reversible in one undo step (observability, not gating — parent PQ3), so directing an agent in place is as light as leaving a comment. No shipping prior art wires comment-directed agent edits into a markdown KB's history this way (prior-art differentiator).
@@ -98,7 +98,7 @@ No cloud, no other workstreams — agents connect over local MCP. This is the he
 - The edit is traceable to its originating thread and feeds the parent's jump-to-change loop (parent O1).
 - A multi-paragraph edit is presented coherently in the thread + history (loading + multi-block presentation is /spec's to design — flagged here, not designed).
 **Assumptions:** CQ1 decided (direct-act); a comment-directed edit over the current agent-write / MCP path lands as one edit traceable back to its thread. Confidence: **Medium** — verify the thread↔edit wiring against the server-side agent-markdown-write + MCP write surface in /spec.
-**Connections:** depends on C1 (thread) and C2 (the AI send path); owns CQ1; closes the loop with parent O1 (comment → agent edits directly → traceable change you can jump to and undo); under federation, the same direct-edit loop is visible to human collaborators (rides C4).
+**Connections:** depends on C1 (thread) and C2 (the AI send path); owns CQ1; closes the loop with parent O1 (comment → agent edits directly → traceable change you can jump to and undo); under federation, the same direct-edit loop is visible to human collaborators (rides C4); batched over many comments at once by C6.
 
 ### C6 — A user can queue comments and dispatch a batch to an agent `P1 · Next · [local]`
 **Why:** Once directing an agent from a comment is one gesture (C2) and its edit lands directly (C3), the next friction is volume — reviewing a doc you leave ten comments and don't want to open ten threads and Ask AI ten times. A **queue** collects the comments you've made, lets you pick which to act on, and **sends the batch to an agent in one action** — the same C3 direct-edit loop, fanned out. It also gives one place to see "what have I asked / still want to ask" before dispatching (customer). It reuses C2's compose path and C3's per-item direct-edit loop — a batching layer, not a new engine (platform). No shipping prior art batch-dispatches anchored comments to an agent (prior-art differentiator).
@@ -132,7 +132,9 @@ No cloud, no other workstreams — agents connect over local MCP. This is the he
 
 **Now — C1 + C2 + C3 (the local hero flow).** *dependency-first*: none depend on the unshipped federated backend, and C1's substrate is what C4 builds on; *risk-first*: C1 exercises the hardest assumption in the whole comments space (anchor survival across rebinds + git merges) before federation; *value-first*: together they close a loop — select → comment or Ask AI → agent edits directly → one traceable edit you can jump to and undo. **Walking-skeleton:** if federation slipped indefinitely, C1+C2+C3 still ship a differentiated, standalone comment-with-your-agents experience. **Barrel check:** three Now outcomes, but they form a dependency chain (C1→C2→C3) — effectively one sequenced stream, under capacity.
 
-**Next — C4** with the first federated milestone (attested identity + inbox). Extends working threads to human recipients; the C3 comment→edit loop becomes visible to human collaborators.
+**Next (local) — C6 (queue + batch-dispatch).** A fast-follow on the hero loop: queue comments and send a batch to an agent in one action. Ungated (no federation dependency), so it can land before or alongside the hosted C4; sequence after C3 since it batches C3's per-item direct-edit loop.
+
+**Next (hosted) — C4** with the first federated milestone (attested identity + inbox). Extends working threads to human recipients; the C3 comment→edit loop becomes visible to human collaborators.
 
 **Later — C5.** Promote when the hosted store + directory exist and a non-editor persona is real.
 
