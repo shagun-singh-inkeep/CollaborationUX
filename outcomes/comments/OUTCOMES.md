@@ -104,7 +104,7 @@ No cloud, no other workstreams — agents connect over local MCP. This is the he
 ### C4 — Collaborators discuss docs in shared anchored threads `P0 · Next · [hosted]`
 **Why:** Comments become multiplayer — collaborators discuss a doc in the same anchored, resolvable threads with **attested** authorship, replies notify, and mentions pull the right person in. Table stakes for any shared-doc tool (prior-art). Here it is an **audience-expansion** of the already-working C1 substrate + C3 loop (agent edits stay visible and traceable to human collaborators too), not a rebuild.
 **Constraints:** depends on CX3 (attested identity + directory) and CX4 (inbox); threads never travel through git (CX2) — git-only collaborators see clean markdown, an explicit sharing-UX trade-off; anchors re-derive or orphan after a git-pull the comment store never saw as CRDT ops; timeline restore/rollback never deletes threads; threads follow docs across git renames/moves (doc-identity mapping, not path binding).
-**Connections:** depends on C1 substrate, CX3, CX4; carries mentions (parent O3); the C3 reply/suggest loop extends to human reviewers.
+**Connections:** depends on C1 substrate, CX3, CX4; carries mentions (parent O3); the C3 comment→edit loop extends to human collaborators.
 **Promote when:** federated backend + member directory reach spec/build — then fully sharpen (authorship, delivery, degraded/offline states) here.
 
 ### C5 — A workspace admin can grant comment-only access `P2 · Later · [hosted]`
@@ -115,9 +115,9 @@ No cloud, no other workstreams — agents connect over local MCP. This is the he
 
 ## Sequencing
 
-**Now — C1 + C2 + C3 (the local hero flow).** *dependency-first*: none depend on the unshipped federated backend, and C1's substrate is what C4 builds on; *risk-first*: C1 exercises the hardest assumption in the whole comments space (anchor survival across rebinds + git merges) before federation; *value-first*: together they close a loop — select → comment or Ask AI → agent proposes a diff → Accept → one traceable edit you can jump to. **Walking-skeleton:** if federation slipped indefinitely, C1+C2+C3 still ship a differentiated, standalone comment-with-your-agents experience. **Barrel check:** three Now outcomes, but they form a dependency chain (C1→C2→C3) — effectively one sequenced stream, under capacity.
+**Now — C1 + C2 + C3 (the local hero flow).** *dependency-first*: none depend on the unshipped federated backend, and C1's substrate is what C4 builds on; *risk-first*: C1 exercises the hardest assumption in the whole comments space (anchor survival across rebinds + git merges) before federation; *value-first*: together they close a loop — select → comment or Ask AI → agent edits directly → one traceable edit you can jump to and undo. **Walking-skeleton:** if federation slipped indefinitely, C1+C2+C3 still ship a differentiated, standalone comment-with-your-agents experience. **Barrel check:** three Now outcomes, but they form a dependency chain (C1→C2→C3) — effectively one sequenced stream, under capacity.
 
-**Next — C4** with the first federated milestone (attested identity + inbox). Extends working threads to human recipients; the C3 accept/discard loop gains human reviewers.
+**Next — C4** with the first federated milestone (attested identity + inbox). Extends working threads to human recipients; the C3 comment→edit loop becomes visible to human collaborators.
 
 **Later — C5.** Promote when the hosted store + directory exist and a non-editor persona is real.
 
@@ -126,7 +126,7 @@ No cloud, no other workstreams — agents connect over local MCP. This is the he
 ## Rabbit holes
 
 - **Designing comment storage/anchoring in this artifact or early /spec chatter.** Tempting — CX1 is intellectually the crux; it's /spec's job. Carry only the invariant (no markdown pollution, anchors survive merges).
-- **Letting CQ1 balloon into a full agent-governance redesign.** The suggestion loop (C3) ships regardless of how direct-act-vs-suggestion resolves; don't block C3 on CQ1, just don't foreclose it.
+- **Re-opening CQ1 into a full agent-governance redesign.** CQ1 is decided (direct-act, observability not gating) and C3 ships the direct-edit loop; don't re-litigate gating unless the parent PQ3 trigger (multi-human unreviewed edits) actually fires.
 - **Notification preference matrices.** One inbox + implicit subscription + per-trigger opt-out, nothing more at v1 (parent PQ4).
 - **Git-syncing threads for "offline collaborators."** Considered and rejected (async arrival, merge conflicts, untrusted identity, no notification); threads stay in the hosted store (CX2).
 - **Rich comment features** (reactions, nested sub-reply trees) before the core loop is trusted.
@@ -134,13 +134,13 @@ No cloud, no other workstreams — agents connect over local MCP. This is the he
 ## Pre-mortem
 
 - **Most likely:** the anchor-fidelity spike (CX1) proves harder than the CRDT-relative-position assumption implies — orphaning is noisy, anchors drift after git merges. Mitigation: it's the first thing C1 builds and the risk-first reason it's Now; spike it before committing C2/C3 UX.
-- **Second:** CQ1 resolves the wrong way — if suggestion-only silently becomes gating for *all* agent edits, it reverses the parent's "observability, not gating" and could feel heavy for autonomous agents. Mitigation: kept explicitly open, owned by C3, decided with the parent PQ3 trigger (multi-human unreviewed edits) in view.
+- **Second:** CQ1's direct-act decision proves too unguarded — a comment-directed agent makes a wrong edit that lands live with no pre-apply review. Mitigation: every such edit is one traceable, one-step-undoable edit tied to its thread and surfaced via jump-to-change (observability, not gating); revisit a review gate only if the parent PQ3 trigger (multi-human unreviewed edits) actually fires.
 - **Third:** federation slips and "team comments" stalls at the local flow — expectation set as multiplayer, delivered as comment-with-your-agents. Mitigation: topology tags make the gate explicit; the local flow is real standalone value.
 
 ## Evidence & References
 
 ### Evidence Files
-- [comment-model-2026-07-10](comment-model-2026-07-10) — design-intent model (unified composer + accept/discard suggestion loop) + competitive captures
+- [comment-model-2026-07-10](comment-model-2026-07-10) — design-intent model (unified composer; its accept/discard mockups superseded here by the direct-act decision — CQ1) + competitive captures
 - [Untitled](ideas) — raw capture: screenshots (Notion, Mintlify, Coda, Claude, GitHub PR) + notes
 - [../human-collaboration-foundations/evidence/current-state-collab-ux.md](../human-collaboration-foundations/evidence/current-state-collab-ux.md) — codebase reality (inherited)
 - [../human-collaboration-foundations/evidence/internal-specs-and-reports.md](../human-collaboration-foundations/evidence/internal-specs-and-reports.md) — locked decisions + house philosophy (inherited)
