@@ -32,7 +32,9 @@ expand comments section
 
 claude design
 
+<img src="/outcomes/comments/pasted-20260710-171804.png" />
 
+opendesign
 
 github pr
 
