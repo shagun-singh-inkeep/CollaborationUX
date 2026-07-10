@@ -102,16 +102,10 @@ No cloud, no other workstreams — agents connect over local MCP. This is the he
 ## Outcomes — hosted track (requires the federated central store)
 
 ### C4 — Collaborators discuss docs in shared anchored threads `P0 · Next · [hosted]`
-**Why:** Comments become multiplayer — collaborators discuss a doc in the same anchored, resolvable threads with **attested** authorship, replies notify, and mentions pull the right person in. Table stakes for any shared-doc tool (prior-art). Here it is an **audience-expansion** of the already-working C1 substrate + C3 loop (agent edits stay visible and traceable to human collaborators too), not a rebuild.
-**Constraints:** depends on CX3 (attested identity + directory) and CX4 (inbox); threads never travel through git (CX2) — git-only collaborators see clean markdown, an explicit sharing-UX trade-off; anchors re-derive or orphan after a git-pull the comment store never saw as CRDT ops; timeline restore/rollback never deletes threads; threads follow docs across git renames/moves (doc-identity mapping, not path binding).
-**Connections:** depends on C1 substrate, CX3, CX4; carries mentions (parent O3); the C3 comment→edit loop extends to human collaborators.
+**Why:** Comments become multiplayer — collaborators discuss a doc in the same anchored, resolvable threads with **attested** authorship, replies notify, and mentions pull the right person in. Table stakes for any shared-doc tool (prior-art). Here it is an **audience-expansion** of the already-working C1 substrate + C3 loop (agent edits stay visible and traceable to human collaborators too), not a rebuild.\
+**Constraints:** depends on CX3 (attested identity + directory) and CX4 (inbox); threads never travel through git (CX2) — git-only collaborators see clean markdown, an explicit sharing-UX trade-off; anchors re-derive or orphan after a git-pull the comment store never saw as CRDT ops; timeline restore/rollback never deletes threads; threads follow docs across git renames/moves (doc-identity mapping, not path binding).\
+**Connections:** depends on C1 substrate, CX3, CX4; carries mentions (parent O3); the C3 comment→edit loop extends to human collaborators.\
 **Promote when:** federated backend + member directory reach spec/build — then fully sharpen (authorship, delivery, degraded/offline states) here.
-
-### C5 — A workspace admin can grant comment-only access `P2 · Later · [hosted]`
-**Why:** An admin can grant comment-only access so reviewers, stakeholders, and adjacent teams annotate without editing. The canonical Viewer/Commenter/Editor tier is table stakes on hosted tools, and prior art localizes real user pain at the viewer/commenter boundary (parent O6 / PQ2).
-**Constraints:** depends on CX3 (roles need attested identity + a place to live); commenter writes land only in the comment store, never in files (CX2); enforced at the hosted sync gateway, never inside git; avoid >3-tier permission matrices at v1 (prior-art deliberately-avoid).
-**Connections:** depends on CX3; interacts with the sharing spec (`/s/` reserved for cloud shares); parent O6 is the umbrella.
-**Promote when:** hosted store + directory exist AND a concrete non-editor persona shows up (design partner, exec reviewer) — then resolve parent PQ2 for real.
 
 ## Sequencing
 
